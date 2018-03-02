@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>
+            Test Page
+        </title>
+    </head>
+    <body>
+        Hello, this is a test page.
+        <p>
+            {% if success %}
+            
+            <font size="3">{% print(message) %}</font>
+            {% else %}
+
+            <font size="3" color="red">{% print(message) %}</font>
+
+            {% endif %}
+        </p>
+    </body>
+</html>

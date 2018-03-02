@@ -17,5 +17,6 @@ sudo apt-get install python3-pip
 # 安装依赖库
 # flask 安装需要root权限
 sudo pip3 install flask
+pip3 install PyMySQL
 
 ```
