@@ -40,4 +40,4 @@ def test():
     return render_template('test.html', success=success, message=message)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(host="0.0.0.0", port=20000)
