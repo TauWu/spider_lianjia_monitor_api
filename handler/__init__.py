@@ -1,2 +1,2 @@
 from .main import app
-from .test import test
+from .test_page import test
