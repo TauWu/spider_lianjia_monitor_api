@@ -4,3 +4,10 @@ select
 from
     lianjia_house_info%s
 """
+
+count_house_stat_sql = """
+select
+    count(1)
+from
+    lianjia_house_stat_json%s
+"""

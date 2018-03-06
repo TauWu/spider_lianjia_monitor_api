@@ -35,7 +35,6 @@ class DBController():
 
     def __init__(self, host="localhost", user="root", passwd="root", port=3306, db="spider_data"):
         import pymysql
-        from pymysql.err import IntegrityError
 
         try:
             from .config import database_info
@@ -50,7 +49,8 @@ class DBController():
         # 保护连接为私有成员
         self._conn = pymysql.connect(host=host,port=port,user=user, passwd=passwd,db=db,charset='utf8')
         self.cur = self._conn.cursor()
-        self.IntegrityError = IntegrityError
+        self.IntegrityError = pymysql.err.IntegrityError
+        self.ProgrammingError = pymysql.err.ProgrammingError
 
     def execute(self, SQL):
         # 执行一条SQL语句
