@@ -69,3 +69,31 @@ def count_spider_stat():
 
     return dict(date=date), code, msg, dict(date=date, count=count)
 
+@app.route(rule="/count_spider", methods=['GET'])
+@api
+def count_spider():
+    '''
+    CountSpider
+    - 返回某一天的房源某一种属性的数量
+    '''
+    date = request.args.get("date")
+    district = request.args.get("district")
+    community_name = request.args.get("community_name")
+    wherestr = "where\n\t1=1 "
+
+    if date is None:
+        date = Time.now_date_str()
+    else:
+        date = date.replace("-","").replace("_","")
+    
+    if district is not None:
+        wherestr += " and district = \"%s\" "%district
+
+    if community_name is not None:
+        wherestr += " and community_name like \"%%%s%%\""%community_name
+
+    countdb = CountDB()
+    code, msg, count = countdb.count_house_info(date, wherestr)
+
+    return dict(date=date), code, msg, dict(date=date, count=count)
+
