@@ -3,6 +3,7 @@ select
     count(1)
 from
     lianjia_house_info%s
+%s
 """
 
 count_house_stat_sql = """

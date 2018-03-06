@@ -16,9 +16,9 @@ class CountDB(DB):
         exec_sql = str()
 
         if date == Time.now_date_str():
-            exec_sql = count_house_info_sql%""
+            exec_sql = count_house_info_sql%("", wherestr)
         else:
-            exec_sql = count_house_info_sql%('_'+date)
+            exec_sql = count_house_info_sql%('_'+date, wherestr)
 
         try:
             DB.execute(self, exec_sql)
