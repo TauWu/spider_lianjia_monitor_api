@@ -22,3 +22,15 @@ def api(func):
     
     wrapper.__name__ = func.__name__
     return wrapper
+
+def req_result(func):
+    '''数据库操作Api返回'''
+    def wrapper(*args, **kwargs):
+        err, func_rtn = func(*args, **kwargs)
+        if err is not None:
+            code, msg = 1, str(err)
+        else:
+            code, msg = 0, 'success.'
+        return code, msg, func_rtn
+    wrapper.__name__ = func.__name__
+    return wrapper

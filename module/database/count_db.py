@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from ..database import *
+from util.common.api import req_result
 
 class CountDB(DB):
 
@@ -8,7 +9,8 @@ class CountDB(DB):
         DB.__init__(self)
         self.today = Time.now_date_str
 
-    def count_house_info(self, date=Time.now_date_str()):
+    @req_result
+    def count_house_info(self, date=Time.now_date_str(), wherestr=""):
         from .sql_template import count_house_info_sql
 
         exec_sql = str()
@@ -25,6 +27,7 @@ class CountDB(DB):
 
         return None, self.cur.fetchone()[0]
     
+    @req_result
     def count_house_stat(self, date=Time.now_date_str()):
         from .sql_template import count_house_stat_sql
 

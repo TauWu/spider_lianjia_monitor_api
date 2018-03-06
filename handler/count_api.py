@@ -17,18 +17,13 @@ def count_house_insert():
     - 返回某一天的房源爬虫数量
     - 当前数据表lianjia_house_info*的数据条数
     '''
-    date = request.args.get("date")
+    date = request.args.get("date").replace("-","").replace("_","")
 
     if date is None:
         date = Time.now_date_str()
 
     countdb = CountDB()
-    err, count = countdb.count_house_info(date)
-
-    if err is not None:
-        code, msg = 1, str(err)
-    else:
-        code, msg = 0, 'success'
+    code, msg, count = countdb.count_house_info(date)
 
     return dict(date=date), code, msg, dict(date=date, count=count)
 
@@ -40,18 +35,13 @@ def count_stat_insert():
     - 返回某一天的房源第三步爬虫数量
     - 当前数据表lianjia_house_stat_json*的数据条数
     '''
-    date = request.args.get("date")
+    date = request.args.get("date").replace("-","").replace("_","")
 
     if date is None:
         date = Time.now_date_str()
 
     countdb = CountDB()
-    err, count = countdb.count_house_stat(date)
-
-    if err is not None:
-        code, msg = 1, str(err)
-    else:
-        code, msg = 0, 'success'
+    code, msg, count = countdb.count_house_stat(date)
 
     return dict(date=date), code, msg, dict(date=date, count=count)
 
