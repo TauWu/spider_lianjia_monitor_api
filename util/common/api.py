@@ -4,7 +4,11 @@ import json
 from .logger import base_info
 
 def api(func):
-    '''生成Api装饰器'''  
+    '''生成Api装饰器
+    要求函数返回参数：
+    - 传入参数、返回码、返回信息、数据
+    - 传入参数、返回码、返回信息、数据、页码信息
+    '''  
     def wrapper(*args, **kwargs):
         func_rtn = func(*args, **kwargs)
         ins = func_rtn[0]
@@ -24,7 +28,11 @@ def api(func):
     return wrapper
 
 def req_result(func):
-    '''数据库操作Api返回'''
+    '''数据库操作Api返回
+    要求函数返回参数：
+    - 错误内容、返回数据
+    - 错误内容、返回数据、总数量
+    '''
     def wrapper(*args, **kwargs):
         func_rtn = func(*args, **kwargs)
         err = func_rtn[0]
