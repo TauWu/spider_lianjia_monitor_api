@@ -17,8 +17,6 @@ class ListDB(DB):
         exec_sql = db_exec_sql(date, list_house_id_sql, wherestr+limit)
         exec_count_sql = db_exec_sql(date, count_house_info_sql, wherestr)
 
-        print(exec_sql, exec_count_sql)
-
         try:
             DB.execute(self, exec_count_sql)
         except Exception as e:
