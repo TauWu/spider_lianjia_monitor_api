@@ -26,11 +26,15 @@ def api(func):
 def req_result(func):
     '''数据库操作Api返回'''
     def wrapper(*args, **kwargs):
-        err, func_rtn = func(*args, **kwargs)
+        func_rtn = func(*args, **kwargs)
+        err = func_rtn[0]
+        rtn = func_rtn[1]
         if err is not None:
             code, msg = 1, str(err)
         else:
             code, msg = 0, 'success.'
-        return code, msg, func_rtn
+        if len(func_rtn) == 3:
+            return code, msg, rtn, func_rtn[2]
+        return code, msg, rtn
     wrapper.__name__ = func.__name__
     return wrapper

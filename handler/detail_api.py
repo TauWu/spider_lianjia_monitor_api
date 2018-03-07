@@ -7,6 +7,7 @@ from .main import app, web_logger
 from flask import request
 from util.common.date import Time
 from util.common.api import api
+from util.common.tool import api_date
 from module.database.detail_db import DetailDB
 
 @app.route(rule="/detail_house_info", methods=['GET'])
@@ -17,13 +18,8 @@ def detail_house_info():
     - 返回某一天 某一个房源编号的 详情信息
     '''
 
-    date = request.args.get("date")
+    date = api_date(request.args.get("date"))
     house_id = request.args.get("house_id")
-
-    if date is None:
-        date = Time.now_date_str()
-    else:
-        date = date.replace("-","").replace("_","")
 
     detail_db = DetailDB()
     code, msg, rtn = detail_db.detail_house_info(house_id, date)
@@ -38,13 +34,8 @@ def detail_house_stat():
     - 返回某一天 某一个房源编号的 统计信息
     '''
 
-    date = request.args.get("date")
+    date = api_date(request.args.get("date"))
     house_id = request.args.get("house_id")
-
-    if date is None:
-        date = Time.now_date_str()
-    else:
-        date = date.replace("-","").replace("_","")
 
     detail_db = DetailDB()
     code, msg, rtn = detail_db.detail_house_stat(house_id, date)

@@ -2,6 +2,7 @@
 
 from ..database import *
 from util.common.api import req_result
+from util.common.tool import db_exec_sql
 
 class CountDB(DB):
 
@@ -9,15 +10,10 @@ class CountDB(DB):
         DB.__init__(self)
 
     @req_result
-    def count_house_info(self, date=Time.now_date_str(), wherestr=""):
+    def count_house_info(self, date=Time.now_date_str(), wherestr=" "):
         from .sql_template import count_house_info_sql
 
-        exec_sql = str()
-
-        if date == Time.now_date_str():
-            exec_sql = count_house_info_sql%("", wherestr)
-        else:
-            exec_sql = count_house_info_sql%('_'+date, wherestr)
+        exec_sql = db_exec_sql(date, count_house_info_sql, wherestr)
 
         try:
             DB.execute(self, exec_sql)
@@ -30,12 +26,7 @@ class CountDB(DB):
     def count_house_stat(self, date=Time.now_date_str()):
         from .sql_template import count_house_stat_sql
 
-        exec_sql = str()
-
-        if date == Time.now_date_str():
-            exec_sql = count_house_stat_sql%""
-        else:
-            exec_sql = count_house_stat_sql%('_'+date)
+        exec_sql = db_exec_sql(date, count_house_stat_sql)
 
         try:
             DB.execute(self, exec_sql)

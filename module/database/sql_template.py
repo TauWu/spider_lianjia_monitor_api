@@ -25,16 +25,22 @@ select
     see_stat_weekly, community_sold_count,
     busi_sold_count
 from
-    lianjia_house_info{date}
-where
-    house_id = '{house_id}'
+    lianjia_house_info%s
+%s
 """
 
 detail_house_stat_sql = """
 select
     id, insert_date, house_stat_json
 from
-    lianjia_house_stat_json{date}
-where
-    house_id = '{house_id}'
+    lianjia_house_stat_json%s
+%s
+"""
+
+list_house_id_sql = """
+select
+    house_id
+from
+    lianjia_house_info%s
+%s
 """
