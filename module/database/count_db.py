@@ -7,7 +7,6 @@ class CountDB(DB):
 
     def __init__(self):
         DB.__init__(self)
-        self.today = Time.now_date_str
 
     @req_result
     def count_house_info(self, date=Time.now_date_str(), wherestr=""):

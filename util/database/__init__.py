@@ -18,7 +18,7 @@ database_info = {
 from util.common.logger import use_logger
 
 @use_logger(level="warn")
-def db_warning(msg):
+def db_warn(msg):
     pass
 
 class DBController():
@@ -44,7 +44,7 @@ class DBController():
             passwd=database_info["passwd"]
             db=database_info["db"]
         except ImportError:
-            db_warning("没有找到数据库配置文件，将以默认方法创建连接")
+            db_warn("没有找到数据库配置文件，将以默认方法创建连接")
 
         # 保护连接为私有成员
         self._conn = pymysql.connect(host=host,port=port,user=user, passwd=passwd,db=db,charset='utf8')
