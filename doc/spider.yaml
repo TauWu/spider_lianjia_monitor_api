@@ -1,0 +1,494 @@
+swagger: '2.0'
+info:
+  description: 链家网爬虫情况监视API接口
+  version: 1.0.0
+  title: spider_lianjia_monitor_api
+host: localhost:20000
+tags:
+  - name: spider_lianjia
+    description: 链家网爬虫情况监视接口
+schemes:
+  - http
+paths:
+  /cmd_spider:
+    get:
+      tags:
+        - CMD
+      summary: 监视当前运行的爬虫程序的基本信息
+      description: ps -ef | grep spider
+      operationId: CMDSpider
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: proc_name
+          in: query
+          description: 程序名称
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 展示当前运行的指定程序的进程情况
+          schema:
+            $ref: '#/definitions/CMDSpiderResponse'
+  /count_spider_create:
+    get:
+      tags:
+        - Count
+      summary: 统计爬虫第一步已经完成的数量
+      description: 筛选页面爬虫情况
+      operationId: CountSpiderCreate
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: date
+          in: query
+          description: 日期
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 展示某一日期的筛选页面的爬虫情况（第一步）
+          schema:
+            $ref: '#/definitions/CountSpiderResponse'
+  /count_spider_page:
+    get:
+      tags:
+        - Count
+      summary: 统计爬虫第二步已经完成的数量
+      description: 详情页面爬虫情况
+      operationId: CountSpiderPage
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: date
+          in: query
+          description: 日期
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 展示某一日期的详情页面的爬虫情况（第二步）
+          schema:
+            $ref: '#/definitions/CountSpiderResponse'
+  /count_spider_stat:
+    get:
+      tags:
+        - Count
+      summary: 统计爬虫第三步已经完成的数量
+      description: 统计接口爬虫情况
+      operationId: CountSpiderStat
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: date
+          in: query
+          description: 日期
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 展示某一日期的统计接口的爬虫情况（第三步）
+          schema:
+            $ref: '#/definitions/CountSpiderResponse'
+  /count_spider:
+    get:
+      tags:
+        - Count
+      summary: 统计搜索条件下的房源统计
+      description: 条件搜索下的房源量
+      operationId: CountSpider
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: date
+          description: 日期
+          required: false
+          type: string
+        - in: query
+          name: district
+          description: 行政区拼音
+          required: false
+          type: string
+        - in: query
+          name: community_name
+          description: 地标名称
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 展示某一搜索条件下的房源量统计
+          schema:
+            $ref: '#/definitions/CountSpiderResponse'
+  /detail_house_info:
+    get:
+      tags:
+      - Detail
+      summary: 获取房间详情
+      operationId: DetailHouseInfo
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: date
+          description: 日期
+          required: false
+          type: string
+        - in: query
+          name: house_id
+          description: 房间编号
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 获取指定日期的房源详情信息
+          schema:
+            $ref: '#/definitions/DetailHouseInfoResponse'
+  /detail_house_stat:
+    get:
+      tags:
+      - Detail
+      summary: 获取房间销售统计接口详情
+      operationId: DetailHouseStat
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: date
+          description: 日期
+          required: false
+          type: string
+        - in: query
+          name: house_id
+          description: 房间编号
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 获取指定日期的房源销售统计接口json信息
+          schema:
+            $ref: '#/definitions/DetailHouseStatResponse'
+  list_house_id:
+    get:
+      tags:
+      - List
+      summary: 获取指定搜索条件下的房源编号列表
+      operationId: ListHouseID
+      consumes:
+        - application/json
+        - application/xml
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - in: query
+          name: date
+          description: 日期
+          required: false
+          type: string
+        - in: query
+          name: page
+          description: 页码
+          required: false
+          type: string
+        - in: query
+          name: pagesize
+          description: 每页容量
+          required: false
+          type: string
+        - in: query
+          name: district
+          description: 行政区拼音
+          required: false
+          type: string
+      responses:
+        '200':
+          description: 获取指定日期的符合条件的房源ID列表
+          schema:
+            $ref: '#/definitions/ListHouseIDResponse'
+
+definitions:
+  CMDSpiderResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int
+        example: 0
+        description: 错误码
+      data:
+        type: object
+        $ref: '#/definitions/CMDSpiderDatas'
+      message:
+        type: string
+        format: str
+        description: 错误信息
+        example: success.
+  CMDSpiderDatas:
+    type: array
+    items:
+      $ref: '#/definitions/CMDSpiderData'
+  CMDSpiderData:
+    type: object
+    properties:
+      time:
+        type: string
+        format: str
+        description: 执行时间
+        example: "03:45:45"
+      stime:
+        type: string
+        format: str
+        description: 开始时间
+        example: "00:00:01"
+      cmd:
+        type: string
+        format: str
+        description: 程序名称
+        example: spider_main.py
+      pid:
+        type: string
+        format: str
+        description: 进程编号
+        example: "10055"
+  CountSpiderResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int
+        example: 0
+        description: 错误码
+      data:
+        type: object
+        $ref: '#/definitions/CountSpiderData'
+      message:
+        type: string
+        format: str
+        description: 错误信息
+        example: success.
+  CountSpiderData:
+    type: object
+    properties:
+      date:
+        type: string
+        format: str
+        example: 0
+        description: 查询日期
+      count:
+        type: integer
+        format: int
+        example: 37000
+        description: 条数
+  DetailHouseInfoResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int
+        example: 0
+        description: 错误码
+      data:
+        type: object
+        $ref: '#/definitions/DetailHouseInfoData'
+      message:
+        type: string
+        format: str
+        description: 错误信息
+        example: success.
+  DetailHouseInfoData:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int
+        example: 1
+        description: spider_data数据库中指定日期表的编号
+      house_title:
+        type: string
+        format: str
+        example: "田林一村 1室1厅 3200元"
+        description: 房源详情标题
+      insert_date:
+        type: string
+        format: str
+        example: "2018-03-01"
+        description: 插入数据表日期
+      district: 
+        type: string
+        format: str
+        example: "xuhui"
+        description: 行政区/商圈 拼音
+      community_id:
+        type: string
+        format: str
+        example: "5011000003145"
+        description: 地标编号
+      community_name:
+        type: string
+        format: str
+        example: "田林一村  "
+        description: 地标名称
+      house_type:
+        type: string
+        format: str
+        example: "1室1厅"
+        description: 户型名称
+      house_type_new:
+        type: string
+        format: str
+        example: "1室1厅1卫"
+        description: 户型名称（详情页面获取）
+      house_area:
+        type: string
+        format: str
+        example: "37平米"
+        description: 房间面积
+      orientation:
+        type: string
+        format: str
+        example: "南"
+        description: 房间朝向
+      distinct_name:
+        type: string
+        format: str
+        example: "田林租房"
+        description: 行政区名称
+      house_floor:
+        type: string
+        format: str
+        example: "高楼层"
+        description: 房间楼层
+      house_create_year:
+        type: string
+        format: str
+        example: "1993年建板楼"
+        description: 建房年限
+      see_count:
+        type: string
+        format: str
+        example: "8"
+        description: 带看次数
+      house_price:
+        type: string
+        format: str
+        example: "3200"
+        description: 房间价格
+      sale_date:
+        type: string
+        format: str
+        example: "2018-03-07"
+        description: 上架日期
+      sale_date_new:
+        type: string
+        format: str
+        example: "10天前发布"
+        description: 上架时间（详情页面获取）
+      extra_info_select:
+        type: string
+        format: str
+        example: "距离12号线桂林公园站499米"
+        description: 其它信息获取
+      basic_info:
+        type: string
+        format: str
+        example: "租赁方式：暂无数据,付款方式：暂无数据,房屋现状：暂无数据,供暖方式：暂无数据"
+        description: 基础信息
+      house_tags:
+        type: string
+        format: str
+        example: "热水器,空调,床"
+        description: 房间设施标签
+      house_feature:
+        type: string
+        format: str
+        example: "暂无房源介绍"
+        description: 房源特色
+      position:
+        type: string
+        format: str
+        example: "121.43,31.18"
+        description: 地标经纬度
+      see_stat_total:
+        type: integer
+        format: int
+        example: 8
+        description: 总带看次数
+      see_stat_weekly:
+        type: integer
+        format: int
+        example: 5
+        description: 周带看次数
+      community_sold_count:
+        type: integer
+        format: int
+        example: 2
+        description: 同小区租出房间数
+      busi_sold_count:
+        type: integer
+        format: int
+        example: 15
+        description: 同商圈租出房间数
+  DetailHouseStatResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int
+        example: 0
+        description: 错误码
+      data:
+        type: object
+        description: 接口详情数据
+      message:
+        type: string
+        format: str
+        description: 错误信息
+        example: success.
+  ListHouseIDResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int
+        example: 0
+        description: 错误码
+      data:
+        type: array
+        items:
+          type: string
+          example: "107100035879"
+          description: 房源编号ID
+      message:
+        type: string
+        format: str
+        description: 错误信息
+        example: success.
